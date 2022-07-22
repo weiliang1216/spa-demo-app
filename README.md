@@ -49,40 +49,37 @@ NOTE: If a component is offline, a component card such as in the image above wil
 The Product detail page contains the recommendations and inventory microservices. 
 
 ![Product Detail](./assets/features.png)
+# Setup Env
+<img width="1157" alt="image" src="https://user-images.githubusercontent.com/8175899/180341850-cd53d743-f3a4-4b1b-97ea-71ce5531ac26.png">
+export KUBECONFIG=/Users/wzhu/Documents/git/wordpress-kube/<kubeconfig>.yaml
 
 # Deploy 
-```bash
-docker-compose up -d
-```
+kubectl apply -f api.yaml
+kubectl apply -f inventory.yaml
+kubectl apply -f mongodb.yaml
+kubectl apply -f recommendations.yaml
+kubectl apply -f spa.yaml
 
-# Development 
-## back-end services (api, inventory, recommendations)
-```bash
-cd <service folder here>
-export MONGO_URL="localhost"
-export INVENTORY_URL="http://localhost:8002"
-export RECOMMENDATIONS_URL="http://recommendations:8001"
-npm run dev
-```
+# Config Load Balance & Ingress
+Pool for Frontend
+<img width="1132" alt="image" src="https://user-images.githubusercontent.com/8175899/180342085-3f5a251f-725c-4f12-ae1f-8849cd31478c.png">
+<img width="903" alt="image" src="https://user-images.githubusercontent.com/8175899/180342195-0aa2da07-afda-4197-9686-4606669d7a61.png">
 
-## spa (front-end)
-```bash
-cd spa
-npm run serve
-```
+Pool for Backend
+<img width="1138" alt="image" src="https://user-images.githubusercontent.com/8175899/180342243-51383d70-8da6-488c-bffc-4bb009a30756.png">
+<img width="1139" alt="image" src="https://user-images.githubusercontent.com/8175899/180342277-ef7e92c1-4607-4fec-a238-31523304f5d1.png">
 
-You will also need to update the *./spa/.env* with the correct API server URL.
+Load Balance Setup
+<img width="1138" alt="image" src="https://user-images.githubusercontent.com/8175899/180342377-e53652bd-b8e9-455d-af8e-f286c9c297b9.png">
+Routes:
+<img width="899" alt="image" src="https://user-images.githubusercontent.com/8175899/180342415-778c1390-ed74-4353-803f-34bee6885634.png">
 
-## Docker Compose
-You can use the docker-compose file leveraged in production for development as well.
-```bash
-docker-compose up -d
-```
+<img width="892" alt="image" src="https://user-images.githubusercontent.com/8175899/180342474-17770ed3-366d-4c47-b55c-5f698a73ad67.png">
 
-To stop the container you want to do development on and run it locally:
-```bash
-docker-compose rm -sv container-name
-```
+# Check you application via DNS name from "DNS Info"
+<img width="1163" alt="image" src="https://user-images.githubusercontent.com/8175899/180342573-94acdc12-332f-479b-bcd3-d6fec542cd1e.png">
+
+
 
 Then start your front-end or back-end as shown above. 
 
