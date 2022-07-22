@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: inventory
+  name: inventory
+spec:
+  ports:
+    - name: "8002"
+      port: 8002
+      targetPort: 8002
+      #nodePort: 31000
+  #type: NodePort
+  selector:
+    io.kompose.service: inventory
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: inventory
+  name: inventory
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: inventory
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.service: inventory
+    spec:
+      containers:
+        - image: weiliang1216/inv
+          name: inv
+          ports:
+            - containerPort: 8002
+          resources: {}
+      restartPolicy: Always

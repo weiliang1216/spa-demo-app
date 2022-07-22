@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: recommendations
+  name: recommendations
+spec:
+  ports:
+    - name: "8001"
+      port: 8001
+      targetPort: 8001
+  selector:
+    io.kompose.service: recommendations
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: recommendations
+  name: recommendations
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: recommendations
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.service: recommendations
+    spec:
+      containers:
+        - image: weiliang1216/recs
+          name: recs
+          ports:
+            - containerPort: 8001
+          resources: {}
+      restartPolicy: Always

@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: api
+  name: api
+spec:
+  ports:
+    - name: "8000"
+      port: 8000
+      targetPort: 8000
+      #nodePort: 30000
+  #type: NodePort
+  selector:
+    io.kompose.service: api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: api
+  name: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: api
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.service: api
+    spec:
+      containers:
+        - env:
+            - name: INVENTORY_URL
+              value: http://inventory:8002
+            - name: MONGO_URL
+              value: mongodb
+            - name: RECOMMENDATIONS_URL
+              value: http://recommendations:8001
+          image: weiliang1216/api
+          name: api
+          ports:
+            - containerPort: 8000
+          resources: {}
+      restartPolicy: Always
