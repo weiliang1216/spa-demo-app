@@ -54,11 +54,17 @@ The Product detail page contains the recommendations and inventory microservices
 export KUBECONFIG=/Users/wzhu/Documents/git/wordpress-kube/<kubeconfig>.yaml
 
 # Deploy 
+```
 kubectl apply -f api.yaml
+
 kubectl apply -f inventory.yaml
+
 kubectl apply -f mongodb.yaml
+
 kubectl apply -f recommendations.yaml
+
 kubectl apply -f spa.yaml
+```
 
 # Config Load Balance & Ingress
 Pool for Frontend
